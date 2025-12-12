@@ -11,9 +11,11 @@ public class Index {
 
     private static boolean spaceship = false;
     private static boolean triton = false;
+    private static boolean dungeon = false;
 
     private static int spaceshipResult = 0;
     private static int tritonResult = 0; //-1 = loss, 0 = not played, 1 = win
+    private static int dungeonResult = 0; // and code 2 means the thing for ascii name
 
     //ANSI Codes for colouring the terminal
     private static final String GREEN = "\u001B[32m";
@@ -30,7 +32,7 @@ public class Index {
         System.out.println("███████ ███████ ███████ ███████ ███████ ");
         System.out.println("     ██ ██   ██ ██   ██ ██   ██      ██ ");
         System.out.println("███████ ██   ██ ██   ██ ██   ██ ███████ ");
-        System.out.println("Which game would tyou like to play today?");
+        System.out.println("Which game would you like to play today?");
         System.out.println("You can choose text adventures or other games.");
         System.out.println("Input choice 'text' or 'other to play.");
         String choice = scanner.nextLine().toLowerCase();
@@ -39,11 +41,11 @@ public class Index {
             textAdventureChooser(scanner);
         }
         else if (choice.equals("o") || choice.equals("other")) {
-            System.out.println("yeah... i havent coded this yet go back");
-            //code to ask the if again
+           otherGamesChooser(scanner);
+            }
         }
         else {
-            System.out.println("That's an invalid choice. Try again.");
+            System.out.println("Beep boop 🤖 I didn't get that. Please enter again:");
         }
     }
 
@@ -52,7 +54,8 @@ public class Index {
             System.out.println("Which text adventure game would you like to play?");
             System.out.println("1. Spaceship Escape (s)");
             System.out.println("2. Triton (t)");
-            System.out.println("Type in (s) or (t)");
+            System.out.println("3. Dungeon (d)")
+            System.out.println("Type in (s), (t) or (d)");
             String choice = scanner.nextLine().toLowerCase();
                 if (choice.equals("s") || choice.contains("spaceship")) {
                     spaceship = true;
@@ -62,13 +65,17 @@ public class Index {
                     triton = true; //code to go to trition.java
                     tritonResult = playTriton();
                 }
+                else if (choice.equals(d) || choce.contains("dungeon")) {
+                    dungeon = true;
+                    dungeonResult = playDungeon();
+                }
         }
         if (spaceship || triton) {
             //at least 1 gameplayed
             System.out.println("\n --- Game Results ---");
             printResult("Spaceship Escape", spaceshipResult);
             printResult("Triton", tritonResult);
-    }
+        }
     }
 
     private static int playSpaceship() {
@@ -108,4 +115,23 @@ public class Index {
             System.out.println(gameName + ": Not played");
         }
     }
+
+    public static void otherGamesChooser(Scanner scanner) {
+        System.out.println("Here are the other games available:");
+            System.out.println("1. ASCII Name Generator (a)");
+            System.out.println("There's nothing else here yet, but more games will be added soon!");
+            System.out.println("Type in (a)");
+            String otherChoice = scanner.nextLine().toLowerCase();
+            if (otherChoice.equals("a") || otherChoice.contains("ascii")) {
+                try {
+                    ProcessBuilder pb  =  new ProcessBuilder("java", "otherGames/asciiName");
+                    pb.inheritIO(); // show the game output in the same terminal
+                    Process process = pb.start();
+                    process.waitFor();
+                }
+                catch (Exception e) {
+                    System.out.println("Error running ASCII Name Generator: " + e.getMessage());
+                } 
+    }
+
 }
