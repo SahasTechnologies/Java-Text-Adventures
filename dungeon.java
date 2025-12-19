@@ -17,6 +17,8 @@ public class dungeonGame {
     private static int health = 100;
     private static boolean healthUsed = false;
     private static boolean playing = true;
+    private static boolean tunnelAexplored = false;
+    private static boolean tunnelBexplored = false;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -25,6 +27,8 @@ public class dungeonGame {
             System.out.println("You've been transported to Medieval England");
             pause();
             System.out.println("...and you're stuck in a dungeon.");
+            pause();
+            System.out.println("You try to find the torch that was in your pocket, but it rolled downhill along with the batteries");
             pause();
             System.out.println("What do you want to do?");
             pause();
@@ -338,7 +342,7 @@ public class dungeonGame {
                     else if (pickBattery.equals("help")) {
                         System.out.println("Available commands: y,n");
                         System.out.println("y: Try to go back and pick up the battery");
-                        System.out.println("n: Don't go back to pick up the battery")
+                        System.out.println("n: Don't go back to pick up the battery");
                     }
             }
             else if (battery is in inventory) {
@@ -350,6 +354,7 @@ public class dungeonGame {
                     System.out.println("You put the battery inside the torch.");
                     putBatteryInTorch();
                     System.out.println("You can see now!");
+                    tunnelAContinue(scanner);
                 }
             }
         }
@@ -438,7 +443,7 @@ public class dungeonGame {
                         pause();
                         System.out.println("GAME OVER");
                         retry(scanner);
-
+                        
 
                     }
                     else if (pick.equals("n") || pick.equals("no")) {
@@ -463,10 +468,91 @@ public class dungeonGame {
                 }
                 else if (whichOneDoYouWantToGoIn.equals("2")) {
                     System.out.println("You walk down tunnel 2.");
+                    System.out.println("You spot some food on the floor");
+                    System.out.println("It's packaged in something like paper.");
+                    System.out.println("Do you want to eat the food? (y/n)");
+                    String food = scanner.nextLine().toLowerCase();
+                    if (food.equals("y")) {
+                        System.out.println("You eat the food.");
+                        pause();
+                        System.out.println("It tastes really really good!");
+                        pause();
+                        System.out.println("Until... you see mold growing on the inside, after you take a bite.");
+                        pause();
+                        System.out.println("You decide not to walk, since you become more tired...");
+                        pause();
+                        System.out.println("After a while, you sleep there...");
+                        pause();
+                        System.out.println("");
+                        System.out.println("ᵃⁿᵈ ʸᵒᵘ ⁿᵉᵛᵉʳ ʷᵃᵏᵉ ᵘᵖ ᵃᵍᵃᶦⁿ...");
+                        
+                    }
+                    else if (food.equals("n")){
+                        System.out.println("You decide not to eat the food.");
+                        System.out.println("Well, there's nothing else to do in this tunnel.");
+                        System.out.println("It ends here.");
+                        System.out.println("What do you want to do now?");
+                        pause();
+                        System.out.println("Type e to eat the food or r to return.");
+                        String noFood = scanner.nextLine().toLowerCase();
+                        if (noFood.equals("e")){
+                            System.out.println("You eat the food.");
+                            pause();
+                            System.out.println("It tastes really really good!");
+                            pause();
+                            System.out.println("Until... you see mold growing on the inside, after you take a bite.");
+                            pause();
+                            System.out.println("You decide not to walk, since you become more tired...");
+                            pause();
+                            System.out.println("After a while, you sleep there...");
+                            pause();
+                            System.out.println("");
+                            System.out.println("ᵃⁿᵈ ʸᵒᵘ ⁿᵉᵛᵉʳ ʷᵃᵏᵉ ᵘᵖ ᵃᵍᵃᶦⁿ...");
+                        }
+                        else if (food.equals("r")) {
+                            System.out.println("You return to the intersection where the tunnnels meet.");
+                        }
+                        else if (food.equals("help")) {
+                            System.out.println("Available commands: e, r");
+                            System.out.println("e: eat the food");
+                            System.out.println("r: return");
+                        
+                        }
+                        else {
+                            System.out.println("That's not a valid command. Tey 'help' for available commands.");
+                        }
+
+                    }
+
                 }
 
                 else if (whichOneDoYouWantToGoIn.equals("3")) {
                     System.out.println("You walk down tunnel 3.");
+                    System.out.println("While walking, you feel a round circular item on the floor with your feet.");
+                    System.out.println("Do you want to pick this up?");
+                    String pickTorch = scanner.nextLine().toLowerCase();
+                    if (pickTorch.equals("y")) {
+                        System.out.println("You pick up the rounc circular item.");
+                        System.out.println("It turns out to be the torch!");
+                        addToInventory(Torch, scanner);
+                        if (batteries not in inventory); {
+                            pause();
+                            System.out.println("But you don't have any batteries.");
+                            System.out.println("At this point, its really dark and you can't see anything.");
+                            pause();
+                            System.out.println("Nevertheless, you try and walk back where you came from.");
+                            pause();
+                            System.out.println("While walking, you drop the torch and trip on it.");
+                            pause();
+                            System.out.println("Your head hits the floor with a loud thud that echoes in the tunnels.");
+                            pause();
+                            System.out.println(nice way to say that you died.)
+                            pause();
+                            System.out.println("GAME OVER");
+                            
+
+                        }
+                    }
                     
                 }
 
@@ -484,7 +570,15 @@ public class dungeonGame {
         }
         else if (doYouWantToGoBackToTryAndFindTheTorch.equals("n")) {
             // i regret naming it doyou want to go bak to try and find the torch
-            System.out.println("")
+            System.out.println("");
+        }
+        else if (doYouWantToGoBackToTryAndFindTheTorch.equals("help")) {
+            System.out.println("Available commands: y, n");
+            System.out.println("y: Go back to try and find the torch.");
+            System.out.println("n: Don't go back to try and find the torch.");
+        }
+        else {
+            System.out.println("That's not an available command. Type help for available commands.");
         }
         
         System.out.println("You spot a box on the floor.");
@@ -550,8 +644,135 @@ public class dungeonGame {
             System.out.println("Huh? I didn't get that. That's not a valid command. Type help for commands info");
         }
     }
-}
 
 
-//CREDIT TO SID (my friend) who gave me this idea and i made it into a 500 line plus game\
+   public static void tunnelAContinue(Scanner scanner) {
+    System.out.println("You continue to walk past tunnel A");
+    pause();
+    System.out.println("While walking, you spot a box on the floor.");
+    pause();
+    System.out.println("It says 'Property of the Kingdom of England");
+    pause();
+    System.out.println("Do you want to pick it up? (y/n)");
+    tunnelAexplored = true;
+    String pickTheBox = scanner.nextLine().toLowerCase;
+    if (pickTheBox.equals("y") || pickTheBox.equals("yes")) {
+        addToInventory(lockedBox);
+        if (tunnelBexplored) {
+            if (SmallKey not in inventory) {
+                System.out.println("You remember the key that you saw in Tunnel B...");
+                pause();
+                System.out.println("You're sure that it would have unlocked this box.");
+                pause();
+                System.out.println("But alas...");
+                pause();
+                System.out.println("Do you want to go back to Tunnel B? (y/n)");
+                String goBackToB = scanner.nextLine().toLowerCase();
+                if (goBackToB.equals("y") || goBackToB.equals("yes")) {
+                    System.out.println("You follow the tunnel back to the intersection.");
+                    pause();
+                    tunnelB(scanner);
+                }
+                else if (goBackToB.equals("n") || goBackToB.equals("no")) {
+                    System.out.println("Okay, you decide not to go back...");
+                    pause();
+                    System.out.println("You walk ahead, and...");
+                    pause();
+                    System.out.println("You almost trip...");
+                    pause();
+                    System.out.println("Into a pit so deep that even your torch can't illuminate it.");
+                    System.out.println("Do you want to jump in this pit?");
+                    String pit = scanner.nextLine().toLowerCase();
+                        if (pit.equals("y") || pit.equals("yes")) {
+                            System.out.println("You jump into the pit...");
+                            pause();
+                            System.out.println("After a minute or two, you still haven't reached the ground.");
+                            pause();
+                            System.out.println("You're gaining speed really really fast...");
+                            pause();
+                            System.out.println("After a bit, it starts to smell like sewage");
+                            pause();
+                            System.out.println("You enter the sewage water, and go so deep that you can't surface again.");
+                            pause();
+                            System.out.println("Eventually, you run out of breath.");
+                            pause();
+                            System.out.println(nice way to say that you died);
+                            System.out.println("GAME OVER");
+                            retry()
+                        }
+                        else if (pit.equals("n") || pit.equals("no")) {
+                            System.out.println("Well, there's nothing else to do in Tunnel A, then...");
+                            System.out.println("Type in j to jump or b to go back to tunnel B.");
+                            String tunnelAEndChoice = scanner.nextLine().toLowerCase();
+                            if (tunnelAEndChoice.equals("j") || tunnelAEndChoice.equals("jump")) {
+                                //😭 i have an if inside of an if inside of an if inside of...
+                                //well, i guess that's what happens when you code a text adventure
+                                System.out.println("You jump into the pit...");
+                                pause();
+                                System.out.println("After a minute or two, you still haven't reached the ground.");
+                                pause();
+                                System.out.println("You're gaining speed really really fast...");
+                                pause();
+                                System.out.println("After a bit, it starts to smell like sewage");
+                                pause();
+                                System.out.println("You enter the sewage water, and go so deep that you can't surface again.");
+                                pause();
+                                System.out.println("Eventually, you run out of breath.");
+                                pause();
+                                System.out.println(nice way to say that you died);
+                                System.out.println("GAME OVER");
+                                retry()
+
+                            }
+                            else if (tunnelAEndChoice.equals("b") || tunnelAEndChoice.equals("back")) {
+                                System.out.println("You follow the tunnel back to the intersection.");
+                                pause();
+                                tunnelB(scanner);
+                            }
+                            else if (tunnelAEndChoice.equals("help")) {
+                                System.out.println("Available commands: j, b");
+                                System.out.println("j: jump into the pit");
+                                System.out.println("b: go back to tunnel B");
+                            }
+                            else {
+                                System.out.println("That's not a valid command. Type 'help' for available commands");
+                            }
+                        else if (pit.equals("help")) {
+                            System.out.println("Available commands: y, n");
+                            System.out.println("y: Jump into and explore the pit");
+                            System.out.println("n: Don't jump into the pit");
+                        }
+                        else {
+                            System.out.println("That's not a valid command. Type in 'help' for available commands.");
+                        }
+                }
+                else if (goBackToB.equals("help")) {
+                    System.out.println("Available commands: y,n");
+                    System.out.println("y: go back to tunnel B");
+                    System.out.println("n: don't go back to tunnel B");
+                }
+                else {
+                    System.out.println("That's not an available command. Type in 'help' for available commands");
+                }
+            }
+
+        }
+    }
+    else if (pickTheBox.equals("n") || pickTheBox.equals("no")) {
+        System.out.println("You decide not to pick the box up");
+        pause();
+        System.out.println("After all, the box was locked...");
+    }
+
+
+   }
+
+
+   
+
+
+
+//CREDIT TO SID (my friend) who gave me this idea and i made it into a 500 line plus game
 // it did tae me, like, 10 hours to finish though
+
+//... i can assure you that the word 'if' is present at least 100 times in this code. (including the if in this sentence)
