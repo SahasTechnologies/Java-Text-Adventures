@@ -10,11 +10,9 @@ import java.util.Scanner;
 public class Index {
 
     private static boolean spaceship = false;
-    private static boolean triton = false;
     private static boolean dungeon = false;
 
     private static int spaceshipResult = 0;
-    private static int tritonResult = 0; //-1 = loss, 0 = not played, 1 = win
     private static int dungeonResult = 0; // and code 2 means the thing for ascii name
 
     //ANSI Codes for colouring the terminal
@@ -53,17 +51,13 @@ public class Index {
         if (!spaceship && !triton) { //no games were played yet
             System.out.println("Which text adventure game would you like to play?");
             System.out.println("1. Spaceship Escape (s)");
-            System.out.println("2. Triton (t)");
             System.out.println("3. Dungeon (d)")
-            System.out.println("Type in (s), (t) or (d)");
+            System.out.println("Type in (s) or (d)");
             String choice = scanner.nextLine().toLowerCase();
                 if (choice.equals("s") || choice.contains("spaceship")) {
                     spaceship = true;
                     spaceshipResult  = playSpaceship();
                 }
-                else if (choice.equals("t") || choice.contains("triton")) {
-                    triton = true; //code to go to trition.java
-                    tritonResult = playTriton();
                 }
                 else if (choice.equals(d) || choce.contains("dungeon")) {
                     dungeon = true;
@@ -132,6 +126,12 @@ public class Index {
                 catch (Exception e) {
                     System.out.println("Error running ASCII Name Generator: " + e.getMessage());
                 } 
+                //there are soo many bugs 🐛🐛🐛🐛🐛🐛🐞🐞🐞🐞🐞🪲🪲🪲🪲🪲🪲🪲🪲🐜🐜🐜🐜🐜🐜🐜🦗🦗🦗🦗
+                //🪰🪰🪰🪰🪰🪰🪰🪰🪰🦟🦟🦟🦟🦟🦟🦟🦟🦟🪳🪳🪳🪳🪳🦗🦗🦗🦗🦗🐞🐞🐞🐞🐞🐞🪲🪲🪲🪲🪲🪲🐜🐜🐜🐜🐛🐛🐛
+                //see there are so many
     }
 
 }
+
+//there was a triton game... which i got rid of
+//i gave up since i spent wayyyyyy too long on dungeon game
