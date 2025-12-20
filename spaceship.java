@@ -1,11 +1,10 @@
-import java.util.Scanner;
-import java.util.Random;
-import java.util.Set;
 import java.util.HashSet;
-import java.util.Arrays;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public class AdventureGame {
+class AdventureGame {
 
 // ---------------------------------------------------------------------------
 // the variables
@@ -84,7 +83,7 @@ public class AdventureGame {
                 System.out.println("Invalid choice. Try again.");
                 
             }
-        }  // this one ends the while loop (i get confused when there are many {}s)
+        } // this one ends the while loop (i get confused when there are many {}s)
 
         scanner.close();
     }// end main
@@ -246,7 +245,7 @@ public class AdventureGame {
             System.out.println("The box is already open and empty.");
             return;
         }
-        else {
+
         System.out.println("Solve this riddle to open the box.");
         System.out.println("I have a mouth that never speaks,");
         System.out.println("A hunger nothing can appease.");
@@ -255,7 +254,6 @@ public class AdventureGame {
         System.out.println("If this is too hard, type exit to exit the room or hint for a hint (penalty: -10s).");
         
         String answer = scanner.nextLine().toLowerCase();
-        }
 
         if (answer.contains("black hole")) {
             System.out.println("You got it!");
@@ -294,8 +292,6 @@ public class AdventureGame {
             if (nextAction.equals("retry")) {
                 compartmentbox(scanner);
             }
-
-
         } else if (answer.equals("exit")) {
             System.out.println("You decide to leave the box alone for now.");
         } else {
@@ -333,11 +329,10 @@ public class AdventureGame {
                 System.out.println("Time penalty applied: -5s");
             }
             
-            //same setting to find out the no of hints the user already hasd
-            //FIXME - Implemented logic below
+   
             switch (hintsUsed_Exit) {
                 case 1:
-                    System.out.println("HINT 1: I count a journey that ends where it begins, unchanged yet composite."); //this clue was ai, as you can tell
+                    System.out.println("HINT 1: I count a journey that ends where it begins, unchanged yet composite.");
                     break;
                 case 2:
                     System.out.println("HINT 2: I'm highly composite - divisible by 2, 3, 4, 5, 6, 8, 9, 10 and 12.");
@@ -350,10 +345,10 @@ public class AdventureGame {
             if (hintsUsed_Exit == 3) {
                 System.out.println("You've used up all your available hints.");
             }
-            exitriddle(scanner); // Retry the riddle
+            exitriddle(scanner);
             
         } else {
-            // Attempt to parse the code
+
             try {
                 int code = Integer.parseInt(input);
                 
@@ -402,13 +397,12 @@ public class AdventureGame {
         }
         System.out.println("--- Game Over! ---");
         
-        // Signal a successful exit (Win) to the calling program
         System.exit(0);
     }
 
-    // timeleft method is implemented above as a helper.
+    
 
-    public static void exitNumber(int chosenDoor, Scanner scanner) { // Added chosenDoor parameter
+    public static void exitNumber(int chosenDoor, Scanner scanner) { 
         String[] sentences = {
             "With sweat on your face, you go to check the door, hoping that it is the exit",
             "You walk towards the door, praying that it will be the exit",
@@ -418,17 +412,17 @@ public class AdventureGame {
             "You go towards the door, wishing you had taken the map with you."
         };
 
-        // Select a random sentence
+        
         System.out.println(sentences[random.nextInt(sentences.length)]);
     
         System.out.println("Checking this door takes 1 second of your time. (-1s)");
         addTimePenalty(1);
         
-        if (chosenDoor == CORRECT_DOOR) { // Corrected: if (the door number is 90); 
+        if (chosenDoor == CORRECT_DOOR) {
             System.out.println("You found the correct door!");
             exitriddle(scanner);
         } else {
             System.out.println("The door is a dead end. You return to the hallway.");
         }
-    } // Closing brace added here to resolve compilation error
+    }
 }
