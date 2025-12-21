@@ -21,12 +21,12 @@ class AdventureGame {
     private static boolean hasMap = false;
     private static boolean pickedKnife = false;
     private static boolean playing = true; // Added to control the while loop in main
+    private static boolean introShown = false;
 
     // all my ints
     private static int exitTries = 0;
-    private static Set<Integer> triedDoors = new HashSet<>(); // check tried doorts
+    private static final Set<Integer> triedDoors = new HashSet<>(); // check tried doorts
     private static int hintsUsed_Compartment = 0; //for the compartment box with the key
-    private static int hintsUsed_map = 0;
     private static int hintsUsed_Exit = 0; //for the actual exit
     private static final int CORRECT_DOOR = 90; //its an int in case i need to change it for whatever reason
     // by the way, 90 is statistically proven to be the least chosen 'random' number by humans
@@ -37,55 +37,44 @@ class AdventureGame {
 
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        // boolean playing = true; // Moved this declaration to static field above
+        try (Scanner scanner = new Scanner(System.in)) {
+            // boolean playing = true; // Moved this declaration to static field above
 
-        startTime = System.currentTimeMillis(); //start countdown
+            startTime = System.currentTimeMillis(); //start countdown
 
-        System.out.println("Welcome to Escape the Spaceship!");
-        System.out.println("-----");
-
-        while (playing) {
-            // Check if time is up
-            if (System.currentTimeMillis() - startTime >= TIME_LIMIT) {
-                gameOver(); // Calls the loss method with System.exit(1)
-                break; 
+            System.out.println("Welcome to Escape the Spaceship!");
+            System.out.println("-----");
+            if (!introShown) {
+                System.out.println("You wake up to find yourself trapped in a spaceship.");
+                System.out.println("You hear an alarm go off... the spaceship is launching in 3 minutes. You have to escape before then.");
+                System.out.println("Write /time at any time to check how much time you have left.");
+                introShown = true;
             }
 
-            //show the remaining time for the user to see
-            long elapsed = System.currentTimeMillis() - startTime;
-            long remainingSeconds = (TIME_LIMIT - elapsed) / 1000;
+            while (playing) {
+                // Check if time is up
+                if (System.currentTimeMillis() - startTime >= TIME_LIMIT) {
+                    gameOver(); // Calls the loss method with System.exit(1)
+                    break;
+                }
 
-            //the starting prints
-            System.out.println("\n--- Current Location: Main Hallway ---");
-            System.out.println("You wake up to find yourself trapped in a spaceship.");
-            System.out.println("You hear an alarm go off... the spaceship is launching in 3 minutes. You have to escape before then.");
-            System.out.println("Write /time at any time to check how much time you have left.");
-            System.out.println("You see 3 doors in front of you:");
-            System.out.println("The Fuselage Room (f), The Kitchen (k) and the Compartment Room (c)");
-            System.out.println("Where do you want to go? (f/k/c) or type /time for remaining time.");
+                //the starting prints
+                System.out.println("\n--- Current Location: Main Hallway ---");
+                System.out.println("You see 3 doors in front of you:");
+                System.out.println("The Fuselage Room (f), The Kitchen (k) and the Compartment Room (c)");
+                System.out.println("Where do you want to go? (f/k/c) or type /time for remaining time.");
 
-            String choice = scanner.nextLine().toLowerCase();
+                String choice = scanner.nextLine().toLowerCase();
 
-            if (choice.equals("/time")) {
-                timeleft(); // Removed scanner argument as it's not used here
-            } 
-            else if (choice.equals("f")) {
-                fuselage(scanner);
-            } 
-            else if (choice.equals("k")) {
-                kitchen(scanner);
-            } 
-            else if (choice.equals("c")) {
-                compartment(scanner);
-            } 
-            else {
-                System.out.println("Invalid choice. Try again.");
-                
-            }
-        } // this one ends the while loop (i get confused when there are many {}s)
-
-        scanner.close();
+                switch (choice) {
+                    case "/time" -> timeleft();
+                    case "f" -> fuselage(scanner);
+                    case "k" -> kitchen(scanner);
+                    case "c" -> compartment(scanner);
+                    default -> System.out.println("Invalid choice. Try again.");
+                }
+            } // this one ends the while loop (i get confused when there are many {}s)
+        }
     }// end main
     
     // --- NEW METHOD FOR GAME LOSS (Time's Up) ---
@@ -114,7 +103,6 @@ class AdventureGame {
         if (remainingSeconds < 0) remainingSeconds = 0;
 
         System.out.println("You have " + remainingSeconds + " seconds left.");
-        return;
     }
 
     // the specific room logic starts here:
@@ -124,7 +112,6 @@ class AdventureGame {
         if (!hasKey){
             System.out.println("\n--- Current Location: Fuselage Door ---"); // Corrected typo in Location
             System.out.println("Hmm, seems like this door is locked. You'll need a key to unlock it.");
-            return; // Needs to be 'return;' not 'return false;' for a void method
         }
         else { //if person DOES have the key
             System.out.println("\n--- Current Location: Fuselage ---"); // Corrected typo in Location
@@ -174,10 +161,8 @@ class AdventureGame {
                     
                 } else if (choice.equals("exit")) {
                     System.out.println("You retreat back to the main hallway to find a map.");
-                    return;
                 } else {
                     System.out.println("Invalid choice. Returning to the main hallway.");
-                    return;
                 }
             }
             else { // User has map
@@ -200,8 +185,7 @@ class AdventureGame {
         System.out.println("Do you want to pick up the shiny object? (y/n)");
         String choice = scanner.nextLine().toLowerCase();
         
-        // Corrected logic to use .contains for "y" or "yes"
-        if (choice.contains("y")) { 
+        if (choice.equals("y") || choice.equals("yes")) { 
             System.out.println("It turned out to be a sharp knife.");
             System.out.println("As you picked it up, it made a big cut in your palm.");
             System.out.println("It was also rusted on the other side.");
@@ -211,8 +195,7 @@ class AdventureGame {
             pickedKnife = true;
             System.out.println("You walk back with a bloody hand.");
         } 
-        // Corrected logic to use .contains for "n" or "no"
-        else if (choice.contains("n")) { 
+        else if (choice.equals("n") || choice.equals("no")) { 
             System.out.println("You decide not to pick it up. As you walk back, you can't help but think what that could have been.");
             System.out.println("Could it have been a key?");
         } else {
@@ -246,57 +229,57 @@ class AdventureGame {
             return;
         }
 
-        System.out.println("Solve this riddle to open the box.");
-        System.out.println("I have a mouth that never speaks,");
-        System.out.println("A hunger nothing can appease.");
-        System.out.println("I swallow suns without a trace...");
-        System.out.println("What am I, lurking out in space?");
-        System.out.println("If this is too hard, type exit to exit the room or hint for a hint (penalty: -10s).");
-        
-        String answer = scanner.nextLine().toLowerCase();
+        while (!hasKey) {
+            System.out.println("Solve this riddle to open the box.");
+            System.out.println("I have a mouth that never speaks,");
+            System.out.println("A hunger nothing can appease.");
+            System.out.println("I swallow suns without a trace...");
+            System.out.println("What am I, lurking out in space?");
+            System.out.println("If this is too hard, type exit to exit the room or hint for a hint (penalty: -10s).");
 
-        if (answer.contains("black hole")) {
-            System.out.println("You got it!");
-            System.out.println("You found inside a key, covered in gold.");
-            System.out.println("On it, it's written:");
-            System.out.println("Use only in emergencies");
-            System.out.println("You keep this in your pocket and start to leave the room.");
-            hasKey = true; //set variable hasKey to true
-        } else if (answer.equals("hint")) {
-            //add code here to check for how many hints have been used up and show hint1,2,3 accoringly
-            //FIXME - implemented logic below
-            
-            if (hintsUsed_Compartment < 3) {
-                hintsUsed_Compartment++;
-                addTimePenalty(10);
-                System.out.println("Time penalty applied: -10s");
+            String answer = scanner.nextLine().toLowerCase();
+
+            if (answer.contains("black hole")) {
+                System.out.println("You got it!");
+                System.out.println("You found inside a key, covered in gold.");
+                System.out.println("On it, it's written:");
+                System.out.println("Use only in emergencies");
+                System.out.println("You keep this in your pocket and start to leave the room.");
+                hasKey = true; //set variable hasKey to true
+                return;
             }
 
-            switch (hintsUsed_Compartment) {
-                case 1:
-                    System.out.println("HINT 1: Where even time forgets is steps, a shadow's edge marks the point... of no return."); 
-                    break;
-                case 2:
-                    System.out.println("HINT 2: Beyond my event horizon, nothing, and I mean nothing, can come back out."); 
-                    break;
-                case 3:
-                    System.out.println("HINT 3: I am an object with gravity so strong that not even light can escape me."); 
-                    break;
+            if (answer.equals("hint")) {
+                if (hintsUsed_Compartment < 3) {
+                    hintsUsed_Compartment++;
+                    addTimePenalty(10);
+                    System.out.println("Time penalty applied: -10s");
+                }
+
+                switch (hintsUsed_Compartment) {
+                    case 1:
+                        System.out.println("HINT 1: Where even time forgets is steps, a shadow's edge marks the point... of no return.");
+                        break;
+                    case 2:
+                        System.out.println("HINT 2: Beyond my event horizon, nothing, and I mean nothing, can come back out.");
+                        break;
+                    case 3:
+                        System.out.println("HINT 3: I am an object with gravity so strong that not even light can escape me.");
+                        break;
+                }
+
+                if (hintsUsed_Compartment == 3) {
+                    System.out.println("You've used up all your available hints.");
+                }
+                continue;
             }
-            
-            if (hintsUsed_Compartment == 3) {
-                System.out.println("You've used up all your available hints.");
+
+            if (answer.equals("exit")) {
+                System.out.println("You decide to leave the box alone for now.");
+                return;
             }
-            System.out.println("Press exit to exit or retry to try the riddle again.");
-            String nextAction = scanner.nextLine().toLowerCase();
-            if (nextAction.equals("retry")) {
-                compartmentbox(scanner);
-            }
-        } else if (answer.equals("exit")) {
-            System.out.println("You decide to leave the box alone for now.");
-        } else {
+
             System.out.println("That's incorrect. Try again.");
-            compartmentbox(scanner); // Recursive call to retry
         }
     }
 
@@ -315,68 +298,65 @@ class AdventureGame {
         System.out.println("\n--- The Exit Lock Riddle ---");
         System.out.println("I'm the number of a perfect sweep,");
         System.out.println("A full embrace where angles sleep.");
+
         System.out.println("I bind the round in unseen code -");
         System.out.println("Name me, and close the road.");
         System.out.println("Give the 3-digit code to exit, or type hint for a hint (penalty: -5s)");
         
-        String input = scanner.nextLine().trim();
-        
-        if (input.equals("hint")) { 
-            
-            if (hintsUsed_Exit < 3) {
-                hintsUsed_Exit++;
-                addTimePenalty(5);
-                System.out.println("Time penalty applied: -5s");
-            }
-            
-   
-            switch (hintsUsed_Exit) {
-                case 1:
-                    System.out.println("HINT 1: I count a journey that ends where it begins, unchanged yet composite.");
-                    break;
-                case 2:
-                    System.out.println("HINT 2: I'm highly composite - divisible by 2, 3, 4, 5, 6, 8, 9, 10 and 12.");
-                    break;
-                case 3:
-                    System.out.println("HINT 3: I'm the toal degrees in a full circle.");
-                    break;
-            }
-            
-            if (hintsUsed_Exit == 3) {
-                System.out.println("You've used up all your available hints.");
-            }
-            exitriddle(scanner);
-            
-        } else {
+        while (true) {
+            String input = scanner.nextLine().trim();
 
-            try {
-                int code = Integer.parseInt(input);
-                
-                if (input.matches("\\d{3}")) { // Check if input is exactly 3 digits
-                    
-                    System.out.println("You try the code: " + code);
-                    addTimePenalty(2); //add code to minus 2 seconds from the time
-                    System.out.println("It took you 2 seconds to try the code (-2s).");
-                    
-                    if (code == 360) { 
-                        finalExit();
-                    } else { 
-                        System.out.println("You try the code, but it doesn't open.");
-                        exitriddle(scanner);
-                    }
-                    
-                } else { 
-                    System.out.println("That's not even 3 digits!");
-                    System.out.println("You have to enter a 3 digit code since it is 3 digits.");
-                    exitriddle(scanner);
+            if (input.equals("hint")) {
+
+                if (hintsUsed_Exit < 3) {
+                    hintsUsed_Exit++;
+                    addTimePenalty(5);
+                    System.out.println("Time penalty applied: -5s");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Is that a decimal? Or not a number?");
-                System.out.println("You can't put decimals in a lock, just saying.");
-                System.out.println("That's not a valid 3 digit code. Try again.");
-                System.out.println("Just saying - the code has numbers only.");
-                exitriddle(scanner);
+
+
+                switch (hintsUsed_Exit) {
+                    case 1:
+                        System.out.println("HINT 1: I count a journey that ends where it begins, unchanged yet composite.");
+                        break;
+                    case 2:
+                        System.out.println("HINT 2: I'm highly composite - divisible by 2, 3, 4, 5, 6, 8, 9, 10 and 12.");
+                        break;
+                    case 3:
+                        System.out.println("HINT 3: I'm the toal degrees in a full circle.");
+                        break;
+                }
+
+                if (hintsUsed_Exit == 3) {
+                    System.out.println("You've used up all your available hints.");
+                }
+                continue;
             }
+
+            if (!input.matches("\\d{3}")) {
+                System.out.println("That's not even 3 digits!");
+                System.out.println("You have to enter a 3 digit code since it is 3 digits.");
+                continue;
+            }
+
+            int code;
+            try {
+                code = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("That's not a valid 3 digit code. Try again.");
+                continue;
+            }
+
+            System.out.println("You try the code: " + code);
+            addTimePenalty(2); //add code to minus 2 seconds from the time
+            System.out.println("It took you 2 seconds to try the code (-2s).");
+
+            if (code == 360) {
+                finalExit();
+                return;
+            }
+
+            System.out.println("You try the code, but it doesn't open.");
         }
     }
 

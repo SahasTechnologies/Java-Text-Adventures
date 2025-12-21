@@ -79,7 +79,7 @@ class Index {
 
         String otherChoice = scanner.nextLine().trim().toLowerCase();
         switch (otherChoice) {
-            case "a", "ascii" -> asciiExitCode = runGame("AsciiArt");
+            case "a", "ascii" -> asciiExitCode = runGame("asciiname");
             case "g", "guess", "gtn" -> guessExitCode = runGame("GuessTheNumber");
             case "back", "b" -> {
             }
@@ -119,14 +119,11 @@ class Index {
             return;
         }
 
-        if (exitCode == 0) {
-            System.out.println(gameName + ": " + GREEN + "WIN" + RESET);
-        } else if (exitCode == 1) {
-            System.out.println(gameName + ": " + RED + "LOSS" + RESET);
-        } else if (exitCode == 2) {
-            System.out.println(gameName + ": EXITED");
-        } else {
-            System.out.println(gameName + ": Exit code " + exitCode);
+        switch (exitCode) {
+            case 0 -> System.out.println(gameName + ": " + GREEN + "WIN" + RESET);
+            case 1 -> System.out.println(gameName + ": " + RED + "LOSS" + RESET);
+            case 2 -> System.out.println(gameName + ": EXITED");
+            default -> System.out.println(gameName + ": Exit code " + exitCode);
         }
     }
 
