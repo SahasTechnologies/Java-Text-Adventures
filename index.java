@@ -45,11 +45,21 @@ class Index {
 
                 String choice = scanner.nextLine().trim().toLowerCase();
                 switch (choice) {
-                    case "text", "t" -> textAdventureChooser(scanner);
-                    case "other", "o" -> otherGamesChooser(scanner);
-                    case "results", "r" -> printAllResults();
-                    case "quit", "q", "exit" -> running = false;
-                    default -> System.out.println("Beep boop 🤖 I didn't get that. Please enter again:");
+                    case "text", "t":
+                        textAdventureChooser(scanner);
+                        break;
+                    case "other", "o":
+                        otherGamesChooser(scanner);
+                        break;
+                    case "results", "r":
+                        printAllResults();
+                        break;
+                    case "quit", "q", "exit":
+                        running = false;
+                        break;
+                    default:
+                        System.out.println("Beep boop 🤖 I didn't get that. Please enter again:");
+                        break;
                 }
             }
         }
@@ -63,11 +73,17 @@ class Index {
 
         String choice = scanner.nextLine().trim().toLowerCase();
         switch (choice) {
-            case "s", "spaceship" -> spaceshipExitCode = runGame("AdventureGame");
-            case "d", "dungeon" -> dungeonExitCode = runGame("dungeonGame");
-            case "back", "b" -> {
-            }
-            default -> System.out.println("Invalid choice.");
+            case "s", "spaceship":
+                spaceshipExitCode = runGame("AdventureGame");
+                break;
+            case "d", "dungeon":
+                dungeonExitCode = runGame("dungeonGame");
+                break;
+            case "back", "b":
+                break;
+            default:
+                System.out.println("Invalid choice.");
+                break;
         }
     }
 
@@ -79,11 +95,17 @@ class Index {
 
         String otherChoice = scanner.nextLine().trim().toLowerCase();
         switch (otherChoice) {
-            case "a", "ascii" -> asciiExitCode = runGame("asciiname");
-            case "g", "guess", "gtn" -> guessExitCode = runGame("GuessTheNumber");
-            case "back", "b" -> {
-            }
-            default -> System.out.println("Invalid choice.");
+            case "a", "ascii":
+                asciiExitCode = runGame("asciiName");
+                break;
+            case "g", "guess", "gtn":
+                guessExitCode = runGame("GuessTheNumber");
+                break;
+            case "back", "b":
+                break;
+            default:
+                System.out.println("Invalid choice.");
+                break;
         }
     }
 
@@ -120,10 +142,18 @@ class Index {
         }
 
         switch (exitCode) {
-            case 0 -> System.out.println(gameName + ": " + GREEN + "WIN" + RESET);
-            case 1 -> System.out.println(gameName + ": " + RED + "LOSS" + RESET);
-            case 2 -> System.out.println(gameName + ": EXITED");
-            default -> System.out.println(gameName + ": Exit code " + exitCode);
+            case 0:
+                System.out.println(gameName + ": " + GREEN + "WIN" + RESET);
+                break;
+            case 1:
+                System.out.println(gameName + ": " + RED + "LOSS" + RESET);
+                break;
+            case 2:
+                System.out.println(gameName + ": EXITED");
+                break;
+            default:
+                System.out.println(gameName + ": Exit code " + exitCode);
+                break;
         }
     }
 

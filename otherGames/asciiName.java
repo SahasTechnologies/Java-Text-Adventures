@@ -1,12 +1,13 @@
 /// -----------------------------------------
 /// MAKE ASCII FROM YOUR NAME!!!
 /// -----------------------------------------
+
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-// thanks to patorjk.com
-public class asciiname {
+public class asciiName {
 
     private static final Map<Character, String[]> ANSI_REGULAR = new HashMap<>();
 
@@ -290,6 +291,7 @@ public class asciiname {
                 System.out.println("Do you want this in a different colour? (y/n)");
                 String colourChoice = scanner.nextLine().trim().toLowerCase();
                 if (colourChoice.equals("y") || colourChoice.equals("yes")) {
+
                     System.out.println("Choose a colour: ");
                     System.out.println("1. Red");
                     System.out.println("2. Green");
@@ -301,16 +303,23 @@ public class asciiname {
                     String ANSI_BLUE = "\u001B[34m";
                     String ANSI_RESET = "\u001B[0m";
 
-                    String selectedColour;
-                    if (colour.equals("1") || colour.equals("red")) {
-                        selectedColour = ANSI_RED;
-                    } else if (colour.equals("2") || colour.equals("green")) {
-                        selectedColour = ANSI_GREEN;
-                    } else if (colour.equals("3") || colour.equals("blue")) {
-                        selectedColour = ANSI_BLUE;
-                    } else {
-                        System.out.println("Invalid choice, defaulting to no colour.");
-                        selectedColour = "";
+                    String selectedColour = "";
+                    switch (colour) {
+                        case "1":
+                        case "red":
+                            selectedColour = ANSI_RED;
+                            break;
+                        case "2":
+                        case "green":
+                            selectedColour = ANSI_GREEN;
+                            break;
+                        case "3":
+                        case "blue":
+                            selectedColour = ANSI_BLUE;
+                            break;
+                        default:
+                            System.out.println("Invalid choice, defaulting to no colour.");
+                            break;
                     }
 
                     printAsciiColored(text, selectedColour, ANSI_RESET);

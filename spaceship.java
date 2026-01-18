@@ -67,11 +67,21 @@ class AdventureGame {
                 String choice = scanner.nextLine().toLowerCase();
 
                 switch (choice) {
-                    case "/time" -> timeleft();
-                    case "f" -> fuselage(scanner);
-                    case "k" -> kitchen(scanner);
-                    case "c" -> compartment(scanner);
-                    default -> System.out.println("Invalid choice. Try again.");
+                    case "/time":
+                        timeleft();
+                        break;
+                    case "f":
+                        fuselage(scanner);
+                        break;
+                    case "k":
+                        kitchen(scanner);
+                        break;
+                    case "c":
+                        compartment(scanner);
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Try again.");
+                        break;
                 }
             } // this one ends the while loop (i get confused when there are many {}s)
         }
