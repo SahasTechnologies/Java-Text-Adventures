@@ -13,6 +13,7 @@ class Index {
 
     private static final int NOT_PLAYED = Integer.MIN_VALUE;
     private static final String CLASSPATH = "." + File.pathSeparator + "otherGames";
+    private static final boolean IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("win");
 
     private static int spaceshipExitCode = NOT_PLAYED;
     private static int dungeonExitCode = NOT_PLAYED;
@@ -112,7 +113,8 @@ class Index {
     //thing to run other files and get the exit code to know if they won or not
     private static int runGame(String className) {
         try {
-            ProcessBuilder pb = new ProcessBuilder("java", "-cp", CLASSPATH, className);
+            String javaCommand = getJavaExecutable();
+            ProcessBuilder pb = new ProcessBuilder(javaCommand, "-cp", CLASSPATH, className);
             pb.inheritIO(); // show the game output in the same terminal
             Process process = pb.start();
             return process.waitFor();
@@ -157,6 +159,11 @@ class Index {
         }
     }
 
+    private static String getJavaExecutable() {
+        String javaHome = System.getProperty("java.home");
+        String executableName = IS_WINDOWS ? "java.exe" : "java";
+        return javaHome + File.separator + "bin" + File.separator + executableName;
+    }
 }
 //there was a triton game... which i got rid of
 //i gave up since i spent wayyyyyy too long on dungeon game
